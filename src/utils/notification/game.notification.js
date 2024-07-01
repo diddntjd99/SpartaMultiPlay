@@ -38,12 +38,12 @@ export const gameStartNotification = (gameId, timestamp) => {
   return makeNotification(startPacket, PACKET_TYPE.GAME_START);
 };
 
-export const createPingPacket = (timestamp) => {
-  const protoMessages = getProtoMessages();
-  const ping = protoMessages.common.Ping;
+// export const createPingPacket = (timestamp) => {
+//   const protoMessages = getProtoMessages();
+//   const ping = protoMessages.common.Ping;
 
-  const payload = { timestamp };
-  const message = ping.create(payload);
-  const pingPacket = ping.encode(message).finish();
-  return makeNotification(pingPacket, PACKET_TYPE.PING);
-};
+//   const payload = { timestamp };
+//   const message = ping.create(payload);
+//   const pingPacket = ping.encode(message).finish();
+//   return makeNotification(pingPacket, PACKET_TYPE.PING);
+// };

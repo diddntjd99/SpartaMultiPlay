@@ -17,10 +17,9 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
-    addUser(user.id, socket);
+    addUser(deviceId, socket);
 
-    user = getUserById(user.id);
-
+    user = getUserById(deviceId);
     const gameSession = getAllGameSessions()[0];
     if (!gameSession) {
       throw new CustomError(ErrorCodes.GAME_NOT_FOUND, '게임 세션을 찾을 수 없습니다.');

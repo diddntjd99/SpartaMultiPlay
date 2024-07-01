@@ -10,7 +10,7 @@ class Game {
   constructor(id) {
     this.id = id;
     this.users = [];
-    this.intervalManager = new IntervalManager();
+    // this.intervalManager = new IntervalManager();
     this.state = 'waiting'; // 'waiting', 'inProgress'
   }
 
@@ -20,12 +20,12 @@ class Game {
     }
     this.users.push(user);
 
-    this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
-    if (this.users.length === MAX_PLAYERS) {
-      setTimeout(() => {
-        this.startGame();
-      }, 3000);
-    }
+    // this.intervalManager.addPlayer(user.id, user.ping.bind(user), 1000);
+    // if (this.users.length === MAX_PLAYERS) {
+    //   setTimeout(() => {
+    //     this.startGame();
+    //   }, 3000);
+    // }
   }
 
   getUser(userId) {
@@ -34,7 +34,7 @@ class Game {
 
   removeUser(userId) {
     this.users = this.users.filter((user) => user.id !== userId);
-    this.intervalManager.removePlayer(userId);
+    // this.intervalManager.removePlayer(userId);
 
     if (this.users.length < MAX_PLAYERS) {
       this.state = 'waiting';
@@ -44,7 +44,7 @@ class Game {
   getMaxLatency() {
     let maxLatency = 0;
     this.users.forEach((user) => {
-      console.log(`${user.id}: ${user.latency}`);
+      // console.log(`${user.id}: ${user.latency}`);
       maxLatency = Math.max(maxLatency, user.latency);
     });
     return maxLatency;

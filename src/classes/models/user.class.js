@@ -1,4 +1,4 @@
-import { createPingPacket } from '../../utils/notification/game.notification.js';
+// import { createPingPacket } from '../../utils/notification/game.notification.js';
 
 class User {
   constructor(id, socket) {
