@@ -7,8 +7,7 @@ import { getAllGameSessions } from '../../session/game.session.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    const { deviceId } = payload;
-
+    const { deviceId, playerId, latency } = payload;
     let user = await findUserByDeviceID(deviceId);
 
     if (!user) {
@@ -17,7 +16,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
-    addUser(deviceId, socket);
+    addUser(deviceId, playerId, latency, socket);
 
     user = getUserById(deviceId);
     const gameSession = getAllGameSessions()[0];
