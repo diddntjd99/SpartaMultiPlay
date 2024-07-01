@@ -1,12 +1,12 @@
-import { getGameSession } from '../../session/game.session.js';
+import { getAllGameSessions } from '../../session/game.session.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 import CustomError from '../../utils/error/customError.js';
 import { ErrorCodes } from '../../utils/error/errorCodes.js';
 
 const updateLocationHandler = ({ socket, userId, payload }) => {
   try {
-    const { gameId, x, y } = payload;
-    const gameSession = getGameSession(gameId);
+    const { x, y } = payload;
+    const gameSession = getAllGameSessions()[0];
 
     if (!gameSession) {
       throw new CustomError(ErrorCodes.GAME_NOT_FOUND, '게임 세션을 찾을 수 없습니다.');

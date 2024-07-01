@@ -1,8 +1,9 @@
-import { addUser } from '../../session/user.session.js';
+import { addUser, getUserById } from '../../session/user.session.js';
 import { HANDLER_IDS, RESPONSE_SUCCESS_CODE } from '../../constants/handlerIds.js';
 import { createResponse } from '../../utils/response/createResponse.js';
 import { handleError } from '../../utils/error/errorHandler.js';
 import { createUser, findUserByDeviceID, updateUserLogin } from '../../db/user/user.db.js';
+import { getAllGameSessions } from '../../session/game.session.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
@@ -17,6 +18,18 @@ const initialHandler = async ({ socket, userId, payload }) => {
     }
 
     addUser(user.id, socket);
+
+    user = getUserById(user.id);
+
+    const gameSession = getAllGameSessions()[0];
+    if (!gameSession) {
+      throw new CustomError(ErrorCodes.GAME_NOT_FOUND, '게임 세션을 찾을 수 없습니다.');
+    }
+
+    const existUser = gameSession.getUser(user.id);
+    if (!existUser) {
+      gameSession.addUser(user);
+    }
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
