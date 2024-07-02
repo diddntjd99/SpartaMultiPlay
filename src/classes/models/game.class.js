@@ -28,12 +28,14 @@ class Game {
     }
   }
 
-  getAllLocation() {
-    const locationData = this.users.map((user) => {
-      // const { x, y } = user.calculatePosition();
-      const { x, y } = user.getPosition();
-      return { id: user.id, x, y };
-    });
+  getAllLocation(userId) {
+    const locationData = this.users
+      .filter((user) => user.id !== userId)
+      .map((user) => {
+        // const { x, y } = user.calculatePosition();
+        const { x, y } = user.getPosition();
+        return { id: user.id, x, y };
+      });
     return createLocationPacket(locationData);
   }
 }
