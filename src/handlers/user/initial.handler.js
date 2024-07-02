@@ -16,6 +16,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
       await updateUserLogin(user.id);
     }
 
+    const { x, y } = user;
     addUser(deviceId, playerId, latency, socket);
 
     user = getUserById(deviceId);
@@ -29,11 +30,13 @@ const initialHandler = async ({ socket, userId, payload }) => {
       gameSession.addUser(user);
     }
 
+    user.updatePosition(x, y);
+
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userId: user.id },
+      { userI: user.id, x, y },
       deviceId,
     );
 

@@ -22,10 +22,6 @@ class Game {
 
   removeUser(userId) {
     this.users = this.users.filter((user) => user.id !== userId);
-
-    if (this.users.length < MAX_PLAYERS) {
-      this.state = 'waiting';
-    }
   }
 
   getAllLocation(userId) {
