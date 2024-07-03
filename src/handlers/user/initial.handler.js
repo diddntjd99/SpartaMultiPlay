@@ -7,7 +7,7 @@ import { getAllGameSessions } from '../../session/game.session.js';
 
 const initialHandler = async ({ socket, userId, payload }) => {
   try {
-    const { deviceId, playerId, latency } = payload;
+    const { deviceId, playerId, latency, frame } = payload;
     let user = await findUserByDeviceID(deviceId);
 
     if (!user) {
@@ -17,7 +17,7 @@ const initialHandler = async ({ socket, userId, payload }) => {
     }
 
     const { x, y } = user;
-    addUser(deviceId, playerId, latency, socket);
+    addUser(deviceId, playerId, latency, frame, socket);
 
     user = getUserById(deviceId);
     const gameSession = getAllGameSessions()[0];
@@ -30,13 +30,16 @@ const initialHandler = async ({ socket, userId, payload }) => {
       gameSession.addUser(user);
     }
 
-    user.updatePosition(x, y);
+    const newX = x ? x : 0;
+    const newY = y ? y : 0;
+
+    user.updatePosition(newX, newY);
 
     // 유저 정보 응답 생성
     const initialResponse = createResponse(
       HANDLER_IDS.INITIAL,
       RESPONSE_SUCCESS_CODE,
-      { userI: user.id, x, y },
+      { userI: user.id, x: newX, y: newY },
       deviceId,
     );
 

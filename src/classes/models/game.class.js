@@ -1,7 +1,5 @@
 import { createLocationPacket } from '../../utils/notification/game.notification.js';
 
-const MAX_PLAYERS = 2;
-
 class Game {
   constructor(id) {
     this.id = id;
@@ -10,9 +8,6 @@ class Game {
   }
 
   addUser(user) {
-    if (this.users.length >= MAX_PLAYERS) {
-      throw new Error('Game session is full');
-    }
     this.users.push(user);
   }
 
@@ -24,14 +19,12 @@ class Game {
     this.users = this.users.filter((user) => user.id !== userId);
   }
 
-  getAllLocation(userId) {
-    const locationData = this.users
-      .filter((user) => user.id !== userId)
-      .map((user) => {
-        // const { x, y } = user.calculatePosition();
-        const { x, y } = user.getPosition();
-        return { id: user.id, x, y };
-      });
+  getAllLocation() {
+    const locationData = this.users.map((user) => {
+      const { x, y } = user.calculatePosition();
+      return { id: user.id, x, y };
+    });
+
     return createLocationPacket(locationData);
   }
 }
